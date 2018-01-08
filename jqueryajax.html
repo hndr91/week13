@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>JQUERYftAJAX Demo</title>
+</head>
+<body>
+<style id="show">
+.special{
+ visibility: hidden;
+}
+</style>
+<style>
+h1 {
+    border-bottom: 3px solid #cc9900;
+    color: #996600;
+    font-size: 30px;
+}
+table, th , td  {
+    border: 1px solid grey;
+    border-collapse: collapse;
+    padding: 5px;
+}
+table tr:nth-child(odd)	{
+    background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+    background-color: #ffffff;
+}
+</style>
+<a href="#"><h1>JQUERYftAJAX Demo</h1></a>
+<div id="demo"></div>
+<input type="button" onclick="printData(0,50)" value="Print Data"/>
+<input type="button" onclick="hideData()" value="Hide Data"/></br>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script>
+function printData(start,limit){
+    $.ajax({
+        url: 'jqueryajax.php',
+        method: 'POST',
+        dataType: 'text',
+        data: {
+            key: 'getData',
+            start: start,
+            limit: limit
+        }, success: function (response) {
+            if($('#demo').text().length>0){
+                alert('Data Had Already Been Showed');
+            }else{
+                if(response != 'limitMax'){
+                    $('#demo').removeClass('special');
+                    $('#demo').append(response);
+                    start += limit;
+                    printData(start,limit);
+                }
+            }
+        }
+    });
+}
+
+function hideData(){
+    $('#demo').empty();
+    $('#demo').addClass('special');
+}
+</script>
+</body>
+</html>

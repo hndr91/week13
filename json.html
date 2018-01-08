@@ -1,0 +1,85 @@
+<html>
+<head>
+<title>Json Demo</title>
+</head>
+<body>
+<style id="show">
+.myb{
+ visibility: hidden;
+}
+</style>
+<style>
+h1 {
+    border-bottom: 3px solid #cc9900;
+    color: #996600;
+    font-size: 30px;
+}
+table, th , td  {
+    border: 1px solid grey;
+    border-collapse: collapse;
+    padding: 5px;
+}
+table tr:nth-child(odd)	{
+    background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+    background-color: #ffffff;
+}
+</style>
+<a href="#"><h1>Json Demo</h1></a>
+<div id="id01"></div>
+<div id="demo"></div>
+<input type="button" onclick="myFunction()" value="Print Data"/>
+<input type="button" onclick="printJson()" value="print Json"/></br>
+<input class="myb" type="button" onclick="printObject(1)" value="1st Object"/>
+<input class="myb" type="button" onclick="printObject(2)" value="2nd Object"/>
+<input class="myb" type="button" onclick="printObject(3)" value="3rd Object"/>
+<script>
+//ajax for json file 
+var xmlhttp = new XMLHttpRequest();
+var url = "json.php";
+var response="";
+xmlhttp.onreadystatechange=function() {
+    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        response=xmlhttp.responseText;
+    }
+}
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
+
+//print Json raw file
+function printJson(){
+    document.getElementById('show').innerHTML = '.myb { visibility: show;}';
+    document.getElementById("id01").innerHTML = response;
+    document.getElementByName("myb").style.display = "none";
+ 
+}
+
+//demo of json object parser
+function printObject(i){
+    var obj = JSON.parse(document.getElementById("id01").innerHTML);
+    document.getElementById("demo").innerHTML=obj[i].Name + " " + obj[i].City+ " " +obj[i].Country;
+}
+//print json in a table
+function myFunction() {
+    document.getElementById('show').innerHTML = '.myb { visibility: hidden;}';
+    document.getElementById("demo").innerHTML="";
+    var arr = JSON.parse(response);
+    var i;
+    var out = "<table>";
+
+        for(i = 0; i < arr.length; i++) {
+            out += "<tr><td>" +
+            arr[i].Name +
+            "</td><td>" +
+            arr[i].City +
+            "</td><td>" +
+            arr[i].Country +
+            "</td></tr>";
+        }
+    out += "</table>";
+    document.getElementById("id01").innerHTML = out;
+}
+</script>
+</body>
+</html>

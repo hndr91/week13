@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>Ajax Demo</title>
+<style>
+h1 {
+    border-bottom: 3px solid #cc9900;
+    color: #996600;
+    font-size: 30px;
+}
+table, th , td  {
+    border: 1px solid grey;
+    border-collapse: collapse;
+    padding: 5px;
+}
+table tr:nth-child(odd)	{
+    background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+    background-color: #ffffff;
+}
+</style>
+<script>
+function showHint(str) {
+    if (str.length == 0) { 
+        document.getElementById("txtHint").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById("txtHint").innerHTML = xmlhttp.responseText;
+            }
+        };
+        xmlhttp.open("GET", "ajax.php?q=" + str, true);
+        xmlhttp.send();
+    }
+}
+</script>
+</head>
+<body>
+<a href="#"><h1>AJAX Demo</h1><a>
+<p><b>Try input letter:</b></p>
+<form> 
+Letter: <input type="text" onkeyup="showHint(this.value)">
+</form>
+<p>Suggestions: <span id="txtHint"></span></p>
+</body>
+</html>
